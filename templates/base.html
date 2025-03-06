@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}贰毛收藏{% endblock %}</title>
+    <link rel="preload" href="{{ url_for('static', filename='css/main.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="{{ url_for('static', filename='css/style.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    </noscript>
+    <link rel="dns-prefetch" href="//localhost:5000">
+    <meta http-equiv="Cache-Control" content="public, max-age=31536000">
+    <script>
+        // 添加资源预加载
+        const preloadLinks = document.querySelectorAll('link[rel="preload"][as="style"]');
+        preloadLinks.forEach(link => {
+            link.setAttribute('rel', 'stylesheet');
+        });
+    </script>
+</head>
+<body>
+    <nav class="nav-bar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="{{ url_for('index') }}">贰毛藏金阁</a>
+            </div>
+            <button class="nav-toggle" onclick="toggleNav()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-links">
+                <a href="{{ url_for('index') }}" class="{% if request.endpoint == 'index' %}active{% endif %}">首页</a>
+                <a href="https://wabugua.super.site" target="_blank" class="{% if request.endpoint == 'works' %}active{% endif %}">作品</a>
+                <a href="https://r1txjph3ok7.feishu.cn/wiki/Yax8wUZQHiBhMokM3ibcDHqLnTe?from=from_copylink" target="_blank" class="{% if request.endpoint == 'blog' %}active{% endif %}">藏品</a>
+                <a href="https://r1txjph3ok7.feishu.cn/wiki/MJRSwe4IqiRiilkCKwbcF8K6nGg?from=from_copylink" target="_blank" class="{% if request.endpoint == 'about' %}active{% endif %}">关于</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                <div class="flash-message">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <script>
+    function toggleNav() {
+        const navLinks = document.querySelector('.nav-links');
+        const navToggle = document.querySelector('.nav-toggle');
+        navLinks.classList.toggle('active');
+        navToggle.classList.toggle('active');
+    }
+    </script>
+</body>
+</html>

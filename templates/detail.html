@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ post.fields.标题 }} - 贰毛藏金阁{% endblock %}
+
+{% block content %}
+<div class="post-detail">
+    <article class="post">
+        <div class="post-header">
+            <h1 class="post-title">{{ post.fields.标题 }}</h1>
+            <div class="post-meta">
+                <span class="post-date">{{ post.fields.发布时间|datetime }}</span>
+                {% if post.fields.分类 %}
+                <span class="post-category">{{ post.fields.分类 }}</span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="post-content">
+            {{ post.fields.正文|smart_paragraphs|safe }}
+        </div>
+    </article>
+    
+    <!-- Twikoo评论区 -->
+    <div class="comment-section">
+        <h3>评论</h3>
+        <div id="twikoo"></div>
+    </div>
+</div>
+
+<!-- 引入Twikoo评论系统 -->
+<script src="https://unpkg.com/twikoo@1.6.21/dist/twikoo.all.min.js"></script>
+<script>
+    twikoo.init({
+        envId: 'https://your-project-name.vercel.app', // 替换为您的Vercel域名
+        el: '#twikoo',
+        // 可选配置
+        region: '', // 环境地域，默认为 ap-shanghai
+        path: '{{ post.record_id }}', // 用文章ID作为评论页面的唯一标识
+    });
+</script>
+{% endblock %}
